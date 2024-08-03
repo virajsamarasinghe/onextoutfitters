@@ -3,18 +3,30 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import Cards from "../../components/Cards";
-import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
-import { FaHeart} from "react-icons/fa"
+import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 
 const SimpleNextArrow = (props) => {
   const { className, style, onClick } = props;
   return (
     <div
       className={className}
-      style={{ ...style, display: "block", background: "pink" }}
+      style={{
+        ...style,
+        display: "block",
+        
+        borderRadius: "50%",
+        width: "40px",
+        height: "40px",
+        textAlign: "center",
+        lineHeight: "40px",
+        color: "white",
+        fontSize: "18px",
+      }}
       onClick={onClick}
+      aria-label="Next Slide"
     >
-      NEXT
+      
     </div>
   );
 };
@@ -24,10 +36,21 @@ const SimplePrevArrow = (props) => {
   return (
     <div
       className={className}
-      style={{ ...style, display: "block", background: "pink" }}
+      style={{
+        ...style,
+        display: "block",
+        
+        borderRadius: "50%",
+        width: "40px",
+        height: "40px",
+        textAlign: "center",
+        lineHeight: "40px",
+        color: "white",
+        fontSize: "18px",
+      }}
       onClick={onClick}
+      aria-label="Previous Slide"
     >
-      BACK
     </div>
   );
 };
@@ -37,7 +60,7 @@ const SpecialRoles = () => {
   const slider = React.useRef(null);
 
   useEffect(() => {
-    fetch("/menu.json")
+    fetch("http://localhost:6001/menu")
       .then((res) => res.json())
       .then((data) => {
         const specials = data.filter((item) => item.category === "popular");
@@ -94,25 +117,27 @@ const SpecialRoles = () => {
         </h2>
       </div>
 
-      {/* arrow button */}
+      {/* Arrow buttons for slider */}
       <div className="md:absolute right-3 top-8 mb-10 md:mr-24">
         <button
-          onClick={() => slider?.current?.slickPrev()}
+          onClick={() => slider.current?.slickPrev()}
           className="btn p-2 rounded-full ml-5"
+          aria-label="Previous Slide"
         >
           <FaAngleLeft className="w-8 h-8 p-1" />
         </button>
         <button
-          onClick={() => slider?.current?.slickNext()}
+          onClick={() => slider.current?.slickNext()}
           className="btn p-2 rounded-full ml-5 bg-pink"
+          aria-label="Next Slide"
         >
           <FaAngleRight className="w-8 h-8 p-1" />
         </button>
       </div>
 
       <Slider ref={slider} {...settings} className="overflow-hidden mt-10 space-x-5">
-        {recipes.map((item, i) => (
-          <Cards key={i} item={item} />
+        {recipes.map((item) => (
+          <Cards key={item._id} item={item} />
         ))}
       </Slider>
     </div>

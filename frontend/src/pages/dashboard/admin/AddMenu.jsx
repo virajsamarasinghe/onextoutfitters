@@ -59,13 +59,13 @@ const AddMenu = () => {
   };
 
   return (
-    <div className="w-full md:w-[870px] px-4 mx-auto">
+    <div className="w-full h-screen px-4 mx-auto flex flex-col justify-center">
       <h2 className="text-2xl font-semibold my-4">
         Upload A New <span className="text-pink">Item</span>
       </h2>
 
-      <div>
-        <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="flex-grow">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
           <div className="form-control w-full">
             <label className="label" htmlFor="item-name">
               <span className="label-text">Item Name*</span>
@@ -124,7 +124,7 @@ const AddMenu = () => {
               id="recipe"
               {...register("recipe", { required: true })}
               className="textarea textarea-bordered h-24"
-              placeholder="Tell the worlds about your item"
+              placeholder="Tell the world about your item"
             ></textarea>
           </div>
 
@@ -137,7 +137,7 @@ const AddMenu = () => {
           </div>
 
           <button type="submit" className="btn bg-pink text-white px-6">
-            Add Item <FaUtensils />
+            Add Item
           </button>
         </form>
       </div>

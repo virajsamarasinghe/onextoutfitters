@@ -1,10 +1,10 @@
 import React from 'react'
 
 const categoryItems = [
-  {id: 1 , title:"Blouses & shirts", des: "(60 Items)", image: "/images/home/category/img1.png"},
-  {id: 2 , title:"blouse & skirt", des: "(40 Items)", image: "/images/home/category/img2.png"},
+  {id: 1 , title:"Blouses ", des: "(60 Items)", image: "/images/home/category/img1.png"},
+  {id: 2 , title:"Ladies pants", des: "(40 Items)", image: "/images/home/category/img2.png"},
   {id: 3 , title:"Dresses", des: "(60 Items)", image: "/images/home/category/img3.png"},
-  {id: 4 , title:"Browse All", des: "(160 Items)", image: "/images/home/category/img4.png"},
+  {id: 4 , title:"T-shirt", des: "(160 Items)", image: "/images/home/category/img4.png"},
 ]
 
 const Categories = () => {

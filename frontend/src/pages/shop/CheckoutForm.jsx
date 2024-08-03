@@ -24,9 +24,11 @@ const CheckoutForm = ({ price, cart }) => {
       .then(res => {
         console.log(res.data.clientSecret);
         setClientSecret(res.data.clientSecret);
+      })
+      .catch(error => {
+        console.error("Error fetching client secret:", error);
       });
   }, [price, axiosSecure]);
-
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -34,24 +36,21 @@ const CheckoutForm = ({ price, cart }) => {
       return;
     }
 
-    //create card element
+    // Create card element
     const card = elements.getElement(CardElement);
-
     if (card == null) {
       return;
     }
 
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
+    // Confirm card payment
+    const { error: paymentMethodError, paymentMethod } = await stripe.createPaymentMethod({
       type: 'card',
       card: card,
     });
 
-    if (error) {
-      setCardError(error.message);
-    } else {
-      setCardError("success!");
-      console.log('PaymentMethod:', paymentMethod);
-      // Handle successful payment method creation
+    if (paymentMethodError) {
+      setCardError(paymentMethodError.message);
+      return;
     }
 
     const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(
@@ -68,13 +67,12 @@ const CheckoutForm = ({ price, cart }) => {
     );
 
     if (confirmError) {
-      console.log(confirmError)
+      setCardError(confirmError.message);
+      return;
     }
-    console.log(paymentIntent);
+
     if (paymentIntent.status === 'succeeded') {
-      console.log(paymentIntent.id);
-      setCardError('Your transaction is ${paymentIntent.id}');
-      // payment info data
+      setCardError(`Your transaction is ${paymentIntent.id}`);
       const paymentInfo = {
         email: user.email,
         transitionId: paymentIntent.id,
@@ -85,66 +83,85 @@ const CheckoutForm = ({ price, cart }) => {
         cartItems: cart.map(item => item._id),
         MenuItems: cart.map(item => item.menuItemId)
       }
-      console.log(paymentInfo)
-      // send information to backend
+      console.log(paymentInfo);
+      // Send payment info to backend
       axiosSecure.post('/payments', paymentInfo)
-      .then(res => {
-        console.log(res.data)
-        alert("Payment successful!");
-        navigate('/order')
-
-      })
+        .then(res => {
+          console.log(res.data);
+          alert("Payment successful!");
+          navigate('/order');
+        })
+        .catch(error => {
+          console.error("Error sending payment info:", error);
+        });
     }
   };
 
+  const scrollToShopSection = () => {
+    // Define scrollToShopSection function or remove if not used
+  };
+
   return (
-    <div className=' flex flex-col sm:flex-row justify-start items-start gap-8 py-10'>
-      {/* left side */}
-      <div className='md:w-1/2 w-full space-y-3'>
-        <h4 className='text-lg font-semibold'>Order Summary</h4>
-        <p>Total Price: Rs.{price}</p>
-        <p>Number of Items: {cart.length}</p>
-      </div>
-      {/* right side */}
-      <div className='md:w-1/3 w-full space-y-5 card shrink-0 max-w-sm shadow-2xl bg-base-100 px-4 py-8'>
-      <h4 className='text-lg font-semibold'>Process Your Payment!</h4>
-      <h5 className='font-medium'>Credit/Debit Cards</h5>
-              {/* Stripe form */}
-              <form onSubmit={handleSubmit}>
-          <CardElement
-            options={{
-              style: {
-                base: {
-                  fontSize: '16px',
-                  color: '#424770',
-                  '::placeholder': {
-                    color: '#aab7c4',
-                  },
-                },
-                invalid: {
-                  color: '#9e2146',
-                },
-              },
-            }}
-          />
-          <button type="submit" disabled={!stripe} className='btn btn-sm mt-5 bg-primary w-full text-white'>
-            Pay
-          </button>
-        </form>
+    
+    <div className="max-w-screen-2xl container mx-auto xl:px-20 px-4">
+      
+      
+      <div>
+      
+     
+      
 
-        {cardError ? <p className='text-red italic text-xs mt-3'>{cardError}</p> : "" } 
+      <div className='flex flex-col sm:flex-row justify-start items-start gap-8 py-10'>
+        {/* Left side */}
+    
 
-        {/* PayPal Options */}
-        <div className='mt-5 text-center'>
-          <hr />
-          <button type="button" className='btn btn-sm mt-5 bg-orange-500 text-white'>
-            <FaPaypal /> Pay with PayPal
-          </button>
+        <div className='md:w-1/2 w-full space-y-3'>
+          <h4 className='text-lg font-semibold'>Order Summary</h4>
+          <p>Total Price: Rs.{price}</p>
+          <p>Number of Items: {cart.length}</p>
         </div>
 
-      </div>
-      </div>
-  )
-}
+        {/* Right side */}
+        <div className='md:w-1/3 w-full space-y-5 card shrink-0 max-w-sm shadow-2xl bg-base-100 px-4 py-8'>
+          <h4 className='text-lg font-semibold'>Process Your Payment!</h4>
+          <h5 className='font-medium'>Credit/Debit Cards</h5>
+          {/* Stripe form */}
+          <form onSubmit={handleSubmit}>
+            <CardElement
+              options={{
+                style: {
+                  base: {
+                    fontSize: '16px',
+                    color: '#424770',
+                    '::placeholder': {
+                      color: '#aab7c4',
+                    },
+                  },
+                  invalid: {
+                    color: '#9e2146',
+                  },
+                },
+              }}
+            />
+            <button type="submit" disabled={!stripe} className='btn btn-sm mt-5 bg-primary w-full text-white'>
+              Pay
+            </button>
+          </form>
 
-export default CheckoutForm
+          {cardError && <p className='text-red italic text-xs mt-3'>{cardError}</p>}
+
+          {/* PayPal Options */}
+          <div className='mt-5 text-center'>
+            <hr />
+            <button type="button" className='btn btn-sm mt-5 bg-orange-500 text-white'>
+              <FaPaypal /> Pay with PayPal
+            </button>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  );
+};
+
+export default CheckoutForm;

@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+/** @type {import('tailwindcss').Config} */
+
 export default {
   content: [
     "./index.html",
@@ -11,7 +13,16 @@ export default {
           "red" : "#ff6868",
           "secondary" : "#555",
           "primaryBG" : "#fcfcfc"
-        }
+        },
+        animation: {
+          scale: 'scale 0.3s ease',
+        },
+        keyframes: {
+          scale: {
+            '0%': { transform: 'scale(1)' },
+            '100%': { transform: 'scale(1.1)' },
+          },
+        },
 
 
     },

@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Cards from '../../components/Cards';
 import { FaFilter } from "react-icons/fa";
- 
 
 const Menu = () => {
     const [menu, setMenu] = useState([]);
@@ -11,6 +10,8 @@ const Menu = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(8);
     const [loading, setLoading] = useState(true);
+
+    const shopSectionRef = useRef(null); // Add this line
 
     useEffect(() => {
         const fetchData = async () => {
@@ -72,6 +73,10 @@ const Menu = () => {
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+    const scrollToShopSection = () => {
+        shopSectionRef.current.scrollIntoView({ behavior: 'smooth' }); // Smooth scroll to the section
+    };
+
     if (loading) {
         return <div className="text-center py-4">Loading...</div>;
     }
@@ -89,13 +94,13 @@ const Menu = () => {
                         <p className='text-xl text-[#4a4a4a] md:w-4/5 mx-auto'>
                             Come with family and experience the joy of our stunning fashion pieces, from classic essentials to rich statement items, refreshing trends, and more all at an affordable price.
                         </p>
-                        <button className='btn bg-pink px-8 py-3 font-semibold text-white rounded-full'>Order Now</button>
+                        <button onClick={scrollToShopSection} className='btn bg-pink px-8 py-3 font-semibold text-white rounded-full'>Order Now</button>
                     </div>
                 </div>
             </div>
 
             {/* Menu shop section */}
-            <div className='section-container'>
+            <div className='section-container' ref={shopSectionRef}>
                 {/* Filtering and sorting */}
                 <div className='flex flex-col md:flex-row flex-wrap md:justify-between items-center space-y-3 mb-8'>
                     <div className='flex flex-row justify-start md:items-center md:gap-8 gap-4 flex-wrap'>
