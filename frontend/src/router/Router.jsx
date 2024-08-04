@@ -16,6 +16,7 @@ import ManageItems from "../pages/dashboard/admin/ManageItems";
 import UpdateMenu from "../pages/dashboard/admin/UpdateMenu";
 import Payment from "../pages/shop/Payment";
 import ProductPage from "../pages/shop/ProductPage"; // import the new page
+import BlogPage from "../pages/extrapages/Blog"; // import the new page
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: "/menu",
         element: <Menu />,
+      },
+      {
+        path: "/blog",
+        element: <BlogPage />,
       },
       {
         path: "/order",

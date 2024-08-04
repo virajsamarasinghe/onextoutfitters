@@ -65,7 +65,7 @@ const getAdmin = async (req, res) => {
 // make admin of a user
 const makeAdmin = async (req, res) => {
   const userId = req.params.id;
-  const {name, email, photoURL, role} = req.body;
+  const {name, email,address, photoURL, role} = req.body;
   try {
       const updatedUser = await User.findByIdAndUpdate(
           userId, 

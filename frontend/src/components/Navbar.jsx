@@ -90,7 +90,7 @@ const Navbar = () => {
           <summary>Services</summary>
           <ul className="p-2">
             <li>
-              <a>Customer Support</a>
+              <a>Customize Design </a>
             </li>
             <li>
               <a>Online Order</a>
@@ -99,7 +99,7 @@ const Navbar = () => {
         </details>
       </li>
       <li>
-        <a>Bloges</a>
+        <a href="/blog">Bloges</a>
       </li>
     </>
   );

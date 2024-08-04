@@ -12,8 +12,7 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 app.use(cors());
 app.use(express.json());
 
-//chamabikes1999
-//sahanchathumal910
+
 // MongoDB config
 mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@onext.vzylp2o.mongodb.net/`)
 .then(
@@ -61,7 +60,7 @@ app.post("/create-payment-intent", async (req, res) => {
 
 
 app.get('/', (req, res) => {
-  res.send('Hello icelove client server');
+  res.send('Hello onext server');
 });
 
 app.listen(port, () => {

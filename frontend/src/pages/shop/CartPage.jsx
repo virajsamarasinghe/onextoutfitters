@@ -190,8 +190,9 @@ const CartPage = () => {
               <div className="md:w-1/2 space-y-3">
                 <h3 className="text-lg font-semibold">Customer Details</h3>
                 <p>Name: {user?.displayName || "None"}</p>
+                <p>Address: {user?.displayAddress || "None"}</p>
                 <p>Email: {user?.email}</p>
-                <p>User_id: <span className="text-sm">{user?.uid}</span></p>
+                
               </div>
               <div className="md:w-1/2 space-y-3">
                 <h3 className="text-lg font-semibold">Shopping Details</h3>

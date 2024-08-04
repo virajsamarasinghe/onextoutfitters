@@ -30,13 +30,17 @@ const Order = () => {
   return (
     <div className="max-w-screen-2xl container mx-auto xl:px-24 px-4">
             {/* banner */}
-            <div className=" bg-gradient-to-r from-0% from-[#FAFAFA] to-[#FCFCFC] to-100%">
-        <div className="py-28 flex flex-col items-center justify-center">
-          {/* content */}
-          <div className=" text-center px-4 space-y-7">
-            <h2 className="md:text-5xl text-4xl font-bold md:leading-snug leading-snug">
-              Track all your <span className="text-pink"> Orders!</span>
+            <div className='section-container bg-yellow-400 mb-8'>
+        <div className='py-48 flex flex-col justify-center items-center gap-8'>
+          <div className='text-center space-y-7 px-4'>
+            <h2 className='md:text-5xl text-4xl font-bold md:leading-snug leading-snug'>
+             Track all your
+              <span className='text-pink'>  Orders!</span>
             </h2>
+            <p className='text-xl text-[#4a4a4a] md:w-4/5 mx-auto'>
+              Come with family and experience the joy of our stunning fashion pieces, from classic essentials to rich statement items, refreshing trends, and more all at an affordable price.
+            </p>
+            
           </div>
         </div>
       </div>
