@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate for programmatic navigation
 import logo from "/logo.png";
 import { FaRegUser } from "react-icons/fa";
 import Modal from "./Modal";
@@ -11,6 +12,8 @@ const Navbar = () => {
   const [isSticky, setSticky] = useState(false);
   const { user, loading } = useAuth();
   const [cart, refetch] = useCart();
+  const [showSearchInput, setShowSearchInput] = useState(false);
+  const navigate = useNavigate(); // Initialize useNavigate hook
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,6 +32,11 @@ const Navbar = () => {
     };
   }, []);
 
+  const handleSearchClick = () => {
+    navigate("/menu"); // Redirect to /menu page
+    setShowSearchInput(true); // Optionally show search input when navigating
+  };
+
   const navItems = (
     <>
       <li>
@@ -38,20 +46,25 @@ const Navbar = () => {
       </li>
       <li tabIndex={0}>
         <details>
-          <summary>Catagories</summary>
+          <summary>Categories</summary>
           <ul className="p-2">
             <li>
               <a href="/menu">All</a>
             </li>
             <li>
-              <a>Blouses & shirts</a>
+              <a href="/menu">Dresses</a>
             </li>
             <li>
-              <a>Blouses
-              </a>
+              <a href="/menu">T-Shirts</a>
             </li>
             <li>
-              <a>Kids</a>
+              <a href="/menu">Blouses</a>
+            </li>
+            <li>
+              <a href="/menu">Pants</a>
+            </li>
+            <li>
+              <a href="/menu">Skirt</a>
             </li>
           </ul>
         </details>
@@ -61,34 +74,23 @@ const Navbar = () => {
           <summary>Services</summary>
           <ul className="p-2">
             <li>
-              <a>Offline Order</a>
+              <a>Customer Support</a>
             </li>
             <li>
-              <a>Vehical Booking</a>
-            </li>
-            <li>
-              <a>Vehical Tracking</a>
+              <a>Online Order</a>
             </li>
           </ul>
         </details>
       </li>
       <li>
-        <a>Offers</a>
+        <a>Bloges</a>
       </li>
     </>
   );
 
   return (
-    <header
-      className={`max-w-screen-3xl container mx-auto fixed top-0 left-0 right-0 transition-all duration-300 ease-in-out`}
-    >
-      <div
-        className={`navbar w-full xl:px-24 ${
-          isSticky
-            ? "shadow-md bg-base-100 transition-all duration-300 ease-in-out"
-            : ""
-        }`}
-      >
+    <header className={`max-w-screen-3xl container mx-auto fixed top-0 left-0 right-0 transition-all duration-300 ease-in-out`}>
+      <div className={`navbar w-full xl:px-24 ${isSticky ? "shadow-md bg-base-100 transition-all duration-300 ease-in-out" : ""}`}>
         <div className="navbar-start">
           <div className="dropdown justify-between">
             <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -115,7 +117,7 @@ const Navbar = () => {
             </ul>
           </div>
           <a href="/">
-          <p className= "text-black text-xl ">ONEXT</p>
+            <p className="text-black text-xl">ONEXT</p>
             <img src={logo} alt="Logo" />
           </a>
         </div>
@@ -123,7 +125,10 @@ const Navbar = () => {
           <ul className="menu menu-horizontal px-1">{navItems}</ul>
         </div>
         <div className="navbar-end">
-          <button className="btn btn-ghost btn-circle hidden lg:flex">
+          <button
+            className="btn btn-ghost btn-circle hidden lg:flex"
+            onClick={handleSearchClick} // Use handleSearchClick to navigate and optionally show input
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -139,7 +144,14 @@ const Navbar = () => {
               />
             </svg>
           </button>
-
+          {/* Conditionally render search input only on /menu page */}
+          {showSearchInput && (
+            <input
+              type="text"
+              placeholder="Search..."
+              className="input input-bordered w-full max-w-xs"
+            />
+          )}
           {/* shopping cart */}
           <Link to="/cart-page">
             <label
@@ -167,9 +179,7 @@ const Navbar = () => {
               </div>
             </label>
           </Link>
-
           {/* login button */}
-
           {user ? (
             <>
               <Profile user={user} />

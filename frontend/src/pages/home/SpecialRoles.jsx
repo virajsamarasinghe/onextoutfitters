@@ -4,7 +4,6 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import Cards from "../../components/Cards";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
-import { FaHeart } from "react-icons/fa";
 
 const SimpleNextArrow = (props) => {
   const { className, style, onClick } = props;
@@ -14,7 +13,6 @@ const SimpleNextArrow = (props) => {
       style={{
         ...style,
         display: "block",
-        
         borderRadius: "50%",
         width: "40px",
         height: "40px",
@@ -26,7 +24,7 @@ const SimpleNextArrow = (props) => {
       onClick={onClick}
       aria-label="Next Slide"
     >
-      
+      <FaAngleRight />
     </div>
   );
 };
@@ -39,7 +37,6 @@ const SimplePrevArrow = (props) => {
       style={{
         ...style,
         display: "block",
-        
         borderRadius: "50%",
         width: "40px",
         height: "40px",
@@ -51,6 +48,7 @@ const SimplePrevArrow = (props) => {
       onClick={onClick}
       aria-label="Previous Slide"
     >
+      <FaAngleLeft />
     </div>
   );
 };
@@ -58,6 +56,7 @@ const SimplePrevArrow = (props) => {
 const SpecialRoles = () => {
   const [recipes, setRecipes] = useState([]);
   const slider = React.useRef(null);
+  const [autoScrollDirection, setAutoScrollDirection] = useState("next");
 
   useEffect(() => {
     fetch("http://localhost:6001/menu")
@@ -70,6 +69,22 @@ const SpecialRoles = () => {
         console.error("Error fetching the menu data:", error);
       });
   }, []);
+
+  useEffect(() => {
+    const autoScroll = setInterval(() => {
+      if (autoScrollDirection === "next") {
+        slider.current.slickNext();
+      } else {
+        slider.current.slickPrev();
+      }
+
+      setAutoScrollDirection((prevDirection) =>
+        prevDirection === "next" ? "prev" : "next"
+      );
+    }, 3000); // Change slide every 3 seconds
+
+    return () => clearInterval(autoScroll);
+  }, [autoScrollDirection]);
 
   const settings = {
     dots: true,
@@ -120,14 +135,14 @@ const SpecialRoles = () => {
       {/* Arrow buttons for slider */}
       <div className="md:absolute right-3 top-8 mb-10 md:mr-24">
         <button
-          onClick={() => slider.current?.slickPrev()}
+          onClick={() => slider.current.slickPrev()}
           className="btn p-2 rounded-full ml-5"
           aria-label="Previous Slide"
         >
           <FaAngleLeft className="w-8 h-8 p-1" />
         </button>
         <button
-          onClick={() => slider.current?.slickNext()}
+          onClick={() => slider.current.slickNext()}
           className="btn p-2 rounded-full ml-5 bg-pink"
           aria-label="Next Slide"
         >

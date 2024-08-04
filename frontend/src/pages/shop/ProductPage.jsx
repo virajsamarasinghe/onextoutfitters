@@ -70,7 +70,12 @@ const ProductPage = () => {
           <div className='md:w-1/2'>
             <div className='text-left md:w-4/5'>
               <h1 className='text-7xl font-bold mb-4'>{product.name}</h1>
+              <p className='flex items-center gap-6 mb-4'> Welcome to ONEXT, where fashion meets quality and affordability. Our curated collection of clothing offers something for every occasion, whether you’re dressing up for a special event or keeping it casual. Each item is designed with attention to detail, ensuring you look and feel your best.</p>
               <div className='flex items-center gap-4 mb-4'>
+                <h1>description :</h1>
+                <p>{product.recipe}</p>
+              </div>
+              <div className='flex items-center gap-16 mb-4'>
                 <h1 className='text-xl font-semibold'>Price: Rs. {product.price} /=</h1>
                 <button onClick={() => handleAddToCart(product)} className='btn bg-pink text-white px-4 py-2 rounded-md'>
                   Add to Cart
