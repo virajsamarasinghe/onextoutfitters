@@ -15,8 +15,11 @@ import AddMenu from "../pages/dashboard/admin/AddMenu";
 import ManageItems from "../pages/dashboard/admin/ManageItems";
 import UpdateMenu from "../pages/dashboard/admin/UpdateMenu";
 import Payment from "../pages/shop/Payment";
-import ProductPage from "../pages/shop/ProductPage"; // import the new page
-import BlogPage from "../pages/extrapages/Blog"; // import the new page
+import ProductPage from "../pages/shop/ProductPage"; 
+import BlogPage from "../pages/extrapages/Blog"; 
+import CustomizeDesign from "../pages/extrapages/CustomizeDesign"; 
+import OnlineOrder from "../pages/extrapages/OnlineOrder";
+import CustomerSupport from "../pages/extrapages/CustomerSupport";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +37,18 @@ const router = createBrowserRouter([
       {
         path: "/blog",
         element: <BlogPage />,
+      },
+      {
+        path: "/customize-design",
+        element: <CustomizeDesign />,
+      },
+      {
+        path: "/customer-support",
+        element: <CustomerSupport />,
+      },
+      {
+        path: "/online-order",
+        element: <OnlineOrder />,
       },
       {
         path: "/order",

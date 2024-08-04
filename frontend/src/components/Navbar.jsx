@@ -90,10 +90,10 @@ const Navbar = () => {
           <summary>Services</summary>
           <ul className="p-2">
             <li>
-              <a>Customize Design </a>
+              <a href="/customize-design">Customize Design </a>
             </li>
             <li>
-              <a>Online Order</a>
+              <a href="/online-order">Online Order</a>
             </li>
           </ul>
         </details>

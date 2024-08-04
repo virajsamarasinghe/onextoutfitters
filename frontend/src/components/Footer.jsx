@@ -1,4 +1,7 @@
-import React from 'react'
+
+import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -14,15 +17,15 @@ const Footer = () => {
         <nav>
           <h6 className="footer-title">Useful Links</h6> 
           <a className="link link-hover">About Us</a>
-          <a className="link link-hover">Flavors</a>
-          <a className="link link-hover">Blog</a>
+          <a className="link link-hover">Tik Tok</a>
+          <a className="link link-hover" href="/blog">Blog</a>
           <a className="link link-hover">FAQ</a>
         </nav> 
         <nav>
-          <h6 className="footer-title">Main Menu</h6> 
-          <a className="link link-hover">Home</a>
+          <h6 className="footer-title" >Main Menu</h6> 
+          <a className="link link-hover" href="/">Home</a>
           <a className="link link-hover">Offers</a>
-          <a className="link link-hover">Categories</a>
+          <a className="link link-hover" href="/menu">Categories</a>
           <a className="link link-hover">Contact</a>
         </nav> 
         <nav>
