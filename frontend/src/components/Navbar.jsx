@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate for programmatic navigation
+import { useNavigate, useLocation } from "react-router-dom";
 import logo from "/logo.png";
 import { FaRegUser } from "react-icons/fa";
 import Modal from "./Modal";
@@ -10,19 +10,27 @@ import useAuth from "../hooks/useAuth";
 
 const Navbar = () => {
   const [isSticky, setSticky] = useState(false);
-  const { user, loading } = useAuth();
-  const [cart, refetch] = useCart();
   const [showSearchInput, setShowSearchInput] = useState(false);
-  const navigate = useNavigate(); // Initialize useNavigate hook
+  const [lastScrollTop, setLastScrollTop] = useState(0);
+  const { user } = useAuth();
+  const [cart] = useCart();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
-      const offset = window.scrollY;
-      if (offset > 0) {
-        setSticky(true);
+      const currentScrollTop = window.scrollY;
+      if (currentScrollTop > lastScrollTop) {
+        // Scrolling down
+        setShowSearchInput(false);
       } else {
-        setSticky(false);
+        // Scrolling up
+        if (location.pathname === "/menu") {
+          setShowSearchInput(true);
+        }
       }
+      setLastScrollTop(currentScrollTop <= 0 ? 0 : currentScrollTop); // For Mobile or negative scrolling
+      setSticky(currentScrollTop > 0);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -30,12 +38,20 @@ const Navbar = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [lastScrollTop, location.pathname]);
 
   const handleSearchClick = () => {
-    navigate("/menu"); // Redirect to /menu page
-    setShowSearchInput(true); // Optionally show search input when navigating
+    if (location.pathname !== "/menu") {
+      navigate("/menu"); // Redirect to /menu page
+    }
+    setShowSearchInput(true); // Show search input when navigating
   };
+
+  useEffect(() => {
+    if (location.pathname !== "/menu") {
+      setShowSearchInput(false); // Hide search input if not on /menu page
+    }
+  }, [location.pathname]);
 
   const navItems = (
     <>
@@ -145,7 +161,7 @@ const Navbar = () => {
             </svg>
           </button>
           {/* Conditionally render search input only on /menu page */}
-          {showSearchInput && (
+          {showSearchInput && location.pathname === "/menu" && (
             <input
               type="text"
               placeholder="Search..."
